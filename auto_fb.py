@@ -86,7 +86,7 @@ def fake_password():
 
 def useragent_facebook():
         htc = ["HTC One M8", "HTC One M9", "HTC 10", "HTC U11", "HTC U12+", "HTC Desire 626", "HTC Sensation", "HTC EVO 4G", "HTC One X", "HTC Desire Eye", "HTC One A9", "HTC U Ultra", "HTC Butterfly", "HTC Desire 820", "HTC Wildfire", "HTC HD2", "HTC Evo Shift 4G", "HTC Desire 610", "HTC One Mini", "HTC ThunderBolt", "HTC Droid DNA", "HTC Desire 816", "HTC Legend", "HTC Sensation XL", "HTC Incredible S", "HTC One S", "HTC Rhyme", "HTC Desire HD", "HTC Evo 3D", "HTC Touch Pro 2"]
-        ay", "P3", "display", "wide", "P3", "display", "wide"])
+["ay", "P3", "display", "wide", "P3", "display", "wide"]
         return(random.choice([
               f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; ASUS MOBILITY LIMITED/asus; {str(random.choice(asus))}; {str(random.choice(asus))}; qcom; in_ID; {kode2})',
               f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; OPPO MOBILITY LIMITED/oppo; {str(random.choice(oppo2))}; {str(random.choice(oppo))}; qcom; in_ID; {kode2})',
