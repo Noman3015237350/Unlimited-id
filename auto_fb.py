@@ -1,101 +1,113 @@
-import os,sys,re,time,json,pytz,uuid
-import requests,bs4,string
-import faker,random
+import os, sys, re, time, json, pytz, uuid
+import requests, bs4, string, random, faker
 from faker import Faker
-from bs4 import BeautifulSoup
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as sop
+from datetime import datetime
+from time import sleep, strftime
+from fake_useragent import UserAgent
+
+# Rich library import
 try:
-    import rich, requests
+    import rich
 except:
-    os.system(" pip install rich requests ")
-    import rich, requests
-from rich import print 
+    os.system("pip install rich")
+    import rich
+from rich import print
 from rich.tree import Tree
 from rich.panel import Panel
 from rich.columns import Columns
-from rich.console import Console
-from rich.console import Group
+from rich.console import Console, Group
 from rich.align import Align
 from rich.syntax import Syntax
-from datetime import datetime
-from time import sleep
-from time import sleep as jeda
-from time import strftime
-from bs4 import BeautifulSoup as sop
-from datetime import datetime
-from time import sleep as slp
+
+# Folder creation
 folder_path = '/sdcard/Nexus'
-try:
-    os.makedirs(folder_path, exist_ok=True)
-except:
-    pass
+os.makedirs(folder_path, exist_ok=True)
 os.system("clear")
 
-R="[bold red]"
-G="[bold green]"
-Y="[bold yellow]"
-B="[bold blue]"
-M="[bold magenta]"
-P="[bold violet]"
-C="[bold cyan]"
-W="[bold white]"
-r="\033[1;31m"
-g="\033[1;32m"
-y="\033[1;33m"
-b="\033[1;34m"
-m="\033[1;35m"
-c="\033[1;36m"
-w="\033[1;37m"
+# Colors
+R="[bold red]"; G="[bold green]"; Y="[bold yellow]"; B="[bold blue]"
+M="[bold magenta]"; P="[bold violet]"; C="[bold cyan]"; W="[bold white]"
+r="\033[1;31m"; g="\033[1;32m"; y="\033[1;33m"; b="\033[1;34m"; m="\033[1;35m"; c="\033[1;36m"; w="\033[1;37m"
 
-from requests import api
-
-bulan = {'1':'January','2':'February','3':'March','4':'April','5':'May','6':'June','7':'July','8':'August','9':'September','10': 'October', '11': 'November', '12': 'December'}
+# Date and time
+bulan = {'1':'January','2':'February','3':'March','4':'April','5':'May','6':'June',
+         '7':'July','8':'August','9':'September','10':'October','11':'November','12':'December'}
 tgl = datetime.now().day
-bln = bulan[(str(datetime.now().month))]
+bln = bulan[str(datetime.now().month)]
 thn = datetime.now().year
-tanggal = (str(tgl)+' '+str(bln)+' '+str(thn))
+tanggal = f"{tgl} {bln} {thn}"
 waktu = strftime('%H:%M:%S')
 hari = datetime.now().strftime("%A")
-#──────────────{ LODING SYSTEM }──────────────#
+waktuu = datetime.now(pytz.timezone('Asia/Manila')).strftime("%d-%m-%Y %H:%M:%S")
+
+# Loading system
 def lo(word):
-    Rayhan = ["[\033[38;5;40m■\x1b[0m□□□□□□□□□]","[\033[38;5;42m■■\x1b[0m□□□□□□□□]", "[\033[38;5;42m■■■\x1b[0m□□□□□□□]", "[\033[38;5;43m■■■■\x1b[0m□□□□□□]", "[\033[38;5;44m■■■■■\x1b[0m□□□□□]", "[\033[38;5;45m■■■■■■\x1b[0m□□□□]", "[\x1b[1;97m■■■■■■■\x1b[0m□□□]", "[\x1b[1;98m■■■■■■■■\x1b[0m□□]", "[\x1b[1;99m■■■■■■■■■\x1b[0m□]", "[\x1b[1;910m■■■■■■■■■■\x1b[0m]"]
+    Rayhan = ["[\033[38;5;40m■\x1b[0m□□□□□□□□□]","[\033[38;5;42m■■\x1b[0m□□□□□□□□]", 
+              "[\033[38;5;42m■■■\x1b[0m□□□□□□□]", "[\033[38;5;43m■■■■\x1b[0m□□□□□□]", 
+              "[\033[38;5;44m■■■■■\x1b[0m□□□□□]", "[\033[38;5;45m■■■■■■\x1b[0m□□□□]",
+              "[\x1b[1;97m■■■■■■■\x1b[0m□□□]", "[\x1b[1;98m■■■■■■■■\x1b[0m□□]",
+              "[\x1b[1;99m■■■■■■■■■\x1b[0m□]", "[\x1b[1;910m■■■■■■■■■■\x1b[0m]"]
     for i in range(5):
         for x in range(len(Rayhan)):
-            sys.stdout.write(('\r{}{}').format(str(word), Rayhan[x]))
+            sys.stdout.write(f'\r{word}{Rayhan[x]}')
             time.sleep(0.1)
             sys.stdout.flush()
 
-waktuu = datetime.now(pytz.timezone('Asia/Manila')).strftime("%d-%m-%Y %H:%M:%S")
-
-from fake_useragent import UserAgent
+# User agent generators
 ua = UserAgent()
 def ugenX():
     ualist = [ua.random for _ in range(50)]
-    return str(random.choice(ualist))
+    return random.choice(ualist)
 
+# Fake name & password
 def fake_name():
     first = Faker().first_name()
     last = Faker().last_name()
-    return first,last
+    return first, last
 
 def fake_password():
-    name = " ".join(fake_name()).replace(' ', '')
+    name = "".join(fake_name()).replace(' ', '')
     jam = str(datetime.now().strftime("%X")).replace(':','')
-    namepassword = f'{name}.{jam}.{str(random.randrange(1000,10000))}'
-    return namepassword
+    return f'{name}.{jam}.{random.randrange(1000,10000)}'
 
+# Facebook useragent generator
 def useragent_facebook():
-        htc = ["HTC One M8", "HTC One M9", "HTC 10", "HTC U11", "HTC U12+", "HTC Desire 626", "HTC Sensation", "HTC EVO 4G", "HTC One X", "HTC Desire Eye", "HTC One A9", "HTC U Ultra", "HTC Butterfly", "HTC Desire 820", "HTC Wildfire", "HTC HD2", "HTC Evo Shift 4G", "HTC Desire 610", "HTC One Mini", "HTC ThunderBolt", "HTC Droid DNA", "HTC Desire 816", "HTC Legend", "HTC Sensation XL", "HTC Incredible S", "HTC One S", "HTC Rhyme", "HTC Desire HD", "HTC Evo 3D", "HTC Touch Pro 2"]
-["ay", "P3", "display", "wide", "P3", "display", "wide"]
-        return(random.choice([
-              f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; ASUS MOBILITY LIMITED/asus; {str(random.choice(asus))}; {str(random.choice(asus))}; qcom; in_ID; {kode2})',
-              f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; OPPO MOBILITY LIMITED/oppo; {str(random.choice(oppo2))}; {str(random.choice(oppo))}; qcom; in_ID; {kode2})',
-              f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; MICROMAX MOBILITY LIMITED/micromax; {str(random.choice(micromax))}; {str(random.choice(micromax))}; qcom; in_ID; {kode2})',
-              f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; ONEPLUS MOBILITY LIMITED/oneplus; {str(random.choice(oneplus))}; {str(random.choice(oneplus))}; qcom; in_ID; {kode2})',
-              f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; VIVO MOBILITY LIMITED/vivo; {str(random.choice(vivo2))}; {str(random.choice(vivo))}; qcom; in_ID; {kode2})',
-              f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; POCO MOBILITY LIMITED/poco; {str(random.choice(poco))}; {str(random.choice(poco))}; qcom; in_ID; {kode2})',
-              f"Barcelona {versi_facebook} (iPhone{iphn}; {ios}; in_ID; in_ID; scale={scale}; gamut={gamut}; {pxl}; {kode2})"  
-       ])) 
+    asus = ["ASUS_X01", "ASUS_X02"]
+    oppo = ["OPPO_A1", "OPPO_A2"]
+    micromax = ["MICRO_X1", "MICRO_X2"]
+    oneplus = ["ONE_X1", "ONE_X2"]
+    vivo = ["VIVO_X1", "VIVO_X2"]
+    poco = ["POCO_X1", "POCO_X2"]
+
+    # Example placeholders
+    versi_facebook = "315.0.0.39.123"
+    device_android = "Android 12"
+    dpi = "420dpi"
+    pxl = "1080x2400"
+    kode2 = "en_US"
+    iphn = "13"
+    ios = "16.0"
+    scale = "3.0"
+    gamut = "P3"
+
+    user_agents = [
+        f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; ASUS MOBILITY LIMITED/asus; {random.choice(asus)}; {random.choice(asus)}; qcom; in_ID; {kode2})',
+        f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; OPPO MOBILITY LIMITED/oppo; {random.choice(oppo)}; {random.choice(oppo)}; qcom; in_ID; {kode2})',
+        f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; MICROMAX MOBILITY LIMITED/micromax; {random.choice(micromax)}; {random.choice(micromax)}; qcom; in_ID; {kode2})',
+        f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; ONEPLUS MOBILITY LIMITED/oneplus; {random.choice(oneplus)}; {random.choice(oneplus)}; qcom; in_ID; {kode2})',
+        f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; VIVO MOBILITY LIMITED/vivo; {random.choice(vivo)}; {random.choice(vivo)}; qcom; in_ID; {kode2})',
+        f'Barcelona {versi_facebook} Android ({device_android}; {dpi}; {pxl}; POCO MOBILITY LIMITED/poco; {random.choice(poco)}; {random.choice(poco)}; qcom; in_ID; {kode2})',
+        f"Barcelona {versi_facebook} (iPhone{iphn}; {ios}; in_ID; scale={scale}; gamut={gamut}; {pxl}; {kode2})"
+    ]
+    return random.choice(user_agents)
+
+# Example usage
+if __name__ == "__main__":
+    lo("Loading...")
+    print(f"\nFake User: {fake_name()}")
+    print(f"Fake Password: {fake_password()}")
+    print(f"Facebook User-Agent: {useragent_facebook()}")
 def useragent_facebook2():
         htc = ["HTC One M8", "HTC One M9", "HTC 10", "HTC U11", "HTC U12+", "HTC Desire 626", "HTC Sensation", "HTC EVO 4G", "HTC One X", "HTC Desire Eye", "HTC One A9", "HTC U Ultra", "HTC Butterfly", "HTC Desire 820", "HTC Wildfire", "HTC HD2", "HTC Evo Shift 4G", "HTC Desire 610", "HTC One Mini", "HTC ThunderBolt", "HTC Droid DNA", "HTC Desire 816", "HTC Legend", "HTC Sensation XL", "HTC Incredible S", "HTC One S", "HTC Rhyme", "HTC Desire HD", "HTC Evo 3D", "HTC Touch Pro 2"]
         nexus = ['Galaxy Nexus', 'Nexus 10', 'Nexus 2', 'Nexus 4', 'Nexus 4', 'Nexus 4', 'Nexus 4', 'Nexus 4', 'Nexus 4', 'Nexus 5', 'phone/Nexus 5', 'Nexus 5X', 'Nexus 6', 'Nexus 7', 'Nexus 9', 'Nexus One', 'Nexus One', 'Nexus One', 'Nexus One', 'Nexus One', 'Nexus One', 'Nexus Player', 'Nexus Player', 'Nexus S', 'Nexus S', 'Nexus S 4G', 'nexus S', 'Nexus S', 'Nexus s', 'Nexus S', 'Nexus S', 'Nexus S', 'Nexus S', 'Nexus S']
